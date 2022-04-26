@@ -16,19 +16,18 @@ servers:
 
 tags:
   - name: User
-    description: Operations about users
+    description: User operations
     externalDocs:
       description: Find out more about our store
       url: http://swagger.io
   - name: Role
-    description: Operations about roles
+    description: Role operations
     externalDocs:
       description: Find out more about our store
       url: http://swagger.io
 
 paths:
   /users:
-
     get:
       tags:
         - User
@@ -40,7 +39,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsersResponse'
+                $ref: '#/components/schemas/UsersAndRolesResponse'
         400:
           description: Bad Request
           content:
@@ -65,7 +64,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
     post:
       tags:
         - User
@@ -84,7 +82,44 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserResponse'
+                $ref: '#/components/schemas/UserDTO'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: System Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /roles:
+    get:
+      tags:
+        - Role
+      summary: Get all roles
+      operationId: getRoles
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolesResponse'
         400:
           description: Bad Request
           content:
@@ -124,48 +159,37 @@ components:
         - password
       properties:
         name:
-          description: User's name
+          description: Name of ther user
           type: string
           example: Ricardo Ribeiro
           minLength: 5
           maxLength: 256
         username:
-          description: User's login
+          description: Login of ther user
           type: string
           example: ribeirorqr
           minLength: 5
           maxLength: 256
         password:
-          description: User's password
+          description: Password of ther user
           type: string
           example: ricardo123
           minLength: 5
           maxLength: 256
+
+    UserAndRolesResponse:
+      description: User response
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/UserDTO'
+      properties:
         roles:
           type: array
+          description: Roles of the user
           items:
             $ref: '#/components/schemas/RoleDTO'
 
-    UserRequest:
-      description: User request
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/UserDTO'
-
-    UserResponse:
-      description: User response
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          description: Details about the response
-          type: string
-          example: Example of message
-      allOf:
-        - $ref: '#/components/schemas/UserDTO'
-
-    UsersResponse:
+    UsersAndRolesResponse:
       description: Users response
       type: object
       required:
@@ -178,7 +202,13 @@ components:
         users:
           type: array
           items:
-            $ref: '#/components/schemas/UserDTO'
+            $ref: '#/components/schemas/UserAndRolesResponse'
+
+    UserRequest:
+      description: User request
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/UserDTO'
 
     RoleDTO:
       type: object
@@ -186,15 +216,26 @@ components:
         - name
       properties:
         name:
-          description: User's name
+          description: Name of the role
           type: string
-          enum:
-            - ADMIN
-            - DEV
-            - QA
           example: ADMIN
           minLength: 5
           maxLength: 256
+
+    RolesResponse:
+      description: Roles response
+      type: object
+      required:
+        - size
+      properties:
+        size:
+          description: Size of the list
+          type: integer
+          example: 2
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDTO'
 
     Error:
       type: object

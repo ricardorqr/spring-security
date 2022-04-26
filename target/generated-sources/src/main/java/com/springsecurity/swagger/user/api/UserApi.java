@@ -6,9 +6,9 @@
 package com.springsecurity.swagger.user.api;
 
 import com.springsecurity.swagger.user.model.Error;
+import com.springsecurity.swagger.user.model.UserDTO;
 import com.springsecurity.swagger.user.model.UserRequest;
-import com.springsecurity.swagger.user.model.UserResponse;
-import com.springsecurity.swagger.user.model.UsersResponse;
+import com.springsecurity.swagger.user.model.UsersAndRolesResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -52,7 +52,7 @@ public interface UserApi {
         summary = "Add a user",
         tags = { "User" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UserResponse.class))),
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UserDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
@@ -65,7 +65,7 @@ public interface UserApi {
         produces = "application/json",
         consumes = "application/json"
     )
-    ResponseEntity<UserResponse> addUser(
+    ResponseEntity<UserDTO> addUser(
         @Parameter(name = "UserRequest", description = "Details of the user", required = true, schema = @Schema(description = "")) @Valid @RequestBody UserRequest userRequest
     );
 
@@ -84,7 +84,7 @@ public interface UserApi {
         summary = "Get all users",
         tags = { "User" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UsersResponse.class))),
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UsersAndRolesResponse.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
@@ -96,7 +96,7 @@ public interface UserApi {
         value = "/users",
         produces = "application/json"
     )
-    ResponseEntity<UsersResponse> getUsers(
+    ResponseEntity<UsersAndRolesResponse> getUsers(
         
     );
 

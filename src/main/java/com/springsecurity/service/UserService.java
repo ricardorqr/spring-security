@@ -33,7 +33,7 @@ public class UserService {
     public void addRoleToUser(User user, Role role) {
         log.info("Add role {} to the user {}", role.getName(), user.getName());
         User userFound = userRepository.findByUsername(user.getUsername());
-        Role roleFound = roleRepository.findByName(role.getName());
+        Role roleFound = roleRepository.findByName(role.getName().getValue());
         user.getRoles().add(role);
     }
 

@@ -4,10 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.springsecurity.swagger.user.model.RoleDTO;
 import com.springsecurity.swagger.user.model.UserDTO;
-import java.util.ArrayList;
-import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -35,21 +32,17 @@ public class UserRequest   {
   @JsonProperty("password")
   private String password;
 
-  @JsonProperty("roles")
-  @Valid
-  private List<RoleDTO> roles = null;
-
   public UserRequest name(String name) {
     this.name = name;
     return this;
   }
 
   /**
-   * User's name
+   * Name of ther user
    * @return name
   */
   @NotNull @Size(min = 5, max = 256) 
-  @Schema(name = "name", example = "Ricardo Ribeiro", description = "User's name", required = true)
+  @Schema(name = "name", example = "Ricardo Ribeiro", description = "Name of ther user", required = true)
   public String getName() {
     return name;
   }
@@ -64,11 +57,11 @@ public class UserRequest   {
   }
 
   /**
-   * User's login
+   * Login of ther user
    * @return username
   */
   @NotNull @Size(min = 5, max = 256) 
-  @Schema(name = "username", example = "ribeirorqr", description = "User's login", required = true)
+  @Schema(name = "username", example = "ribeirorqr", description = "Login of ther user", required = true)
   public String getUsername() {
     return username;
   }
@@ -83,44 +76,17 @@ public class UserRequest   {
   }
 
   /**
-   * User's password
+   * Password of ther user
    * @return password
   */
   @NotNull @Size(min = 5, max = 256) 
-  @Schema(name = "password", example = "ricardo123", description = "User's password", required = true)
+  @Schema(name = "password", example = "ricardo123", description = "Password of ther user", required = true)
   public String getPassword() {
     return password;
   }
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public UserRequest roles(List<RoleDTO> roles) {
-    this.roles = roles;
-    return this;
-  }
-
-  public UserRequest addRolesItem(RoleDTO rolesItem) {
-    if (this.roles == null) {
-      this.roles = new ArrayList<>();
-    }
-    this.roles.add(rolesItem);
-    return this;
-  }
-
-  /**
-   * Get roles
-   * @return roles
-  */
-  @Valid 
-  @Schema(name = "roles", required = false)
-  public List<RoleDTO> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(List<RoleDTO> roles) {
-    this.roles = roles;
   }
 
   @Override
@@ -134,13 +100,12 @@ public class UserRequest   {
     UserRequest userRequest = (UserRequest) o;
     return Objects.equals(this.name, userRequest.name) &&
         Objects.equals(this.username, userRequest.username) &&
-        Objects.equals(this.password, userRequest.password) &&
-        Objects.equals(this.roles, userRequest.roles);
+        Objects.equals(this.password, userRequest.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, username, password, roles);
+    return Objects.hash(name, username, password);
   }
 
   @Override
@@ -150,7 +115,6 @@ public class UserRequest   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    roles: ").append(toIndentedString(roles)).append("\n");
     sb.append("}");
     return sb.toString();
   }
