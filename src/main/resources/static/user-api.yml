@@ -188,7 +188,11 @@ components:
         name:
           description: User's name
           type: string
-          example: Admin
+          enum:
+            - ADMIN
+            - DEV
+            - QA
+          example: ADMIN
           minLength: 5
           maxLength: 256
 
