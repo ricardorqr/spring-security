@@ -1,0 +1,36 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: spring-security
+
+  datasource: # MariaDB
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:33067/example
+    username: root
+    password: example
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB103Dialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+#    show-sql: true
+
+#  zipkin: # Zipkin Tracing Server. It connects to the Zipkin server docker image
+#    base-url: http://localhost:9411
+
+springdoc:  # Swagger documentation
+  swagger-ui:
+    url: /customer-api.yml
+    path: /swagger
+
+#eureka: # Eureka Server. It connects to the Eureka server service
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#    fetch-registry: true
+#    register-with-eureka: true

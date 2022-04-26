@@ -1,0 +1,219 @@
+openapi: 3.0.0
+
+info:
+  title: User API Specification
+  description: User API Specification
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: ricardorqr@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1-SNAPSHOT
+
+servers:
+  - url: http://localhost:8081
+
+tags:
+  - name: User
+    description: Operations about users
+    externalDocs:
+      description: Find out more about our store
+      url: http://swagger.io
+  - name: Role
+    description: Operations about roles
+    externalDocs:
+      description: Find out more about our store
+      url: http://swagger.io
+
+paths:
+  /users:
+
+    get:
+      tags:
+        - User
+      summary: Get all users
+      operationId: getUsers
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: System Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      tags:
+        - User
+      summary: Add a user
+      operationId: addUser
+      requestBody:
+        description: Details of the user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: System Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+#security:
+#  - token: []
+
+components:
+  schemas:
+
+    UserDTO:
+      type: object
+      required:
+        - name
+        - username
+        - password
+      properties:
+        name:
+          description: User's name
+          type: string
+          example: Ricardo Ribeiro
+          minLength: 5
+          maxLength: 256
+        username:
+          description: User's login
+          type: string
+          example: ribeirorqr
+          minLength: 5
+          maxLength: 256
+        password:
+          description: User's password
+          type: string
+          example: ricardo123
+          minLength: 5
+          maxLength: 256
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDTO'
+
+    UserRequest:
+      description: User request
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/UserDTO'
+
+    UserResponse:
+      description: User response
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: Details about the response
+          type: string
+          example: Example of message
+      allOf:
+        - $ref: '#/components/schemas/UserDTO'
+
+    UsersResponse:
+      description: Users response
+      type: object
+      required:
+        - size
+      properties:
+        size:
+          description: Size of the list
+          type: integer
+          example: 2
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDTO'
+
+    RoleDTO:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          description: User's name
+          type: string
+          example: Admin
+          minLength: 5
+          maxLength: 256
+
+    Error:
+      type: object
+      description: The Error object contains information about the error
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: 666
+        message:
+          type: string
+          example: Any error message
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+#  securitySchemes:
+#    token:
+#      description: Plese, provide the security token
+#      type: apiKey
+#      name: token
+#      in: header
+
