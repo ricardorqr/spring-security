@@ -25,11 +25,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Role saveRole(Role role) {
-        log.info("Save role: {}", role);
-        return roleRepository.save(role);
-    }
-
     public void addRoleToUser(User user, Role role) {
         log.info("Add role {} to the user {}", role.getName(), user.getName());
         User userFound = userRepository.findByUsername(user.getUsername());
