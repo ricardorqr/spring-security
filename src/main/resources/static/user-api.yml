@@ -82,7 +82,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDTO'
+                $ref: '#/components/schemas/UserResponse'
         400:
           description: Bad Request
           content:
@@ -177,6 +177,10 @@ components:
           minLength: 5
           maxLength: 256
 
+    UserResponse:
+      allOf:
+        - $ref: '#/components/schemas/UserDTO'
+
     UserAndRolesResponse:
       description: User response
       type: object
@@ -187,7 +191,7 @@ components:
           type: array
           description: Roles of the user
           items:
-            $ref: '#/components/schemas/RoleDTO'
+            $ref: '#/components/schemas/RoleResponse'
 
     UsersAndRolesResponse:
       description: Users response
@@ -222,6 +226,10 @@ components:
           minLength: 5
           maxLength: 256
 
+    RoleResponse:
+      allOf:
+        - $ref: '#/components/schemas/RoleDTO'
+
     RolesResponse:
       description: Roles response
       type: object
@@ -235,7 +243,7 @@ components:
         roles:
           type: array
           items:
-            $ref: '#/components/schemas/RoleDTO'
+            $ref: '#/components/schemas/RoleResponse'
 
     Error:
       type: object

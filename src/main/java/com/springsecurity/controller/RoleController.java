@@ -28,7 +28,7 @@ public class RoleController implements RoleApi {
 
         RolesResponse rolesResponse = new RolesResponse();
         rolesResponse.setSize(roles.size());
-        rolesResponse.setRoles(roles.stream().map(Util::modelToDTO).collect(Collectors.toList()));
+        rolesResponse.setRoles(roles.stream().map(Util::modelToDtoFull).collect(Collectors.toList()));
         return new ResponseEntity<>(rolesResponse, HttpStatus.OK);
     }
 

@@ -3,10 +3,7 @@ package com.springsecurity.controller;
 import com.springsecurity.model.User;
 import com.springsecurity.service.UserService;
 import com.springsecurity.swagger.user.api.UserApi;
-import com.springsecurity.swagger.user.model.UserAndRolesResponse;
-import com.springsecurity.swagger.user.model.UserDTO;
-import com.springsecurity.swagger.user.model.UserRequest;
-import com.springsecurity.swagger.user.model.UsersAndRolesResponse;
+import com.springsecurity.swagger.user.model.*;
 import com.springsecurity.util.Util;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +22,10 @@ public class UserController implements UserApi {
     private UserService userService;
 
     @Override
-    public ResponseEntity<UserDTO> addUser(UserRequest userRequest) {
-        return null;
+    public ResponseEntity<UserResponse> addUser(UserRequest userRequest) {
+        log.info("Request add new user");
+        User user = userService.saveUser(Util.dtoToModel(userRequest));
+        return new ResponseEntity<>(Util.modelToDto(user), HttpStatus.OK);
     }
 
     @Override
@@ -36,12 +35,11 @@ public class UserController implements UserApi {
 
         UsersAndRolesResponse response = new UsersAndRolesResponse();
         List<UserAndRolesResponse> userAndRoles = users.stream()
-                                                       .map(Util::modelToDTO)
+                                                       .map(Util::modelToDtoFull)
                                                        .collect(Collectors.toList());
         response.setUsers(userAndRoles);
         response.setSize(userAndRoles.size());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
 }
