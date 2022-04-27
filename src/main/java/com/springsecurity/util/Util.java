@@ -9,26 +9,26 @@ import java.util.stream.Collectors;
 
 public class Util {
 
-    public static RoleResponse modelToDtoFull(Role role) {
+    public static RoleResponse modelToDtoBasic(Role role) {
         RoleResponse dto = new RoleResponse();
         dto.setName(role.getName()
                         .getValue());
         return dto;
     }
 
-    public static UserAndRolesResponse modelToDtoFull(User user) {
+    public static UserAndRolesResponse modelToDto(User user) {
         UserAndRolesResponse dto = new UserAndRolesResponse();
         dto.setName(user.getName());
         dto.setUsername(user.getUsername());
         dto.setPassword(user.getPassword());
         dto.setRoles(user.getRoles()
                          .stream()
-                         .map(Util::modelToDtoFull)
+                         .map(Util::modelToDtoBasic)
                          .collect(Collectors.toList()));
         return dto;
     }
 
-    public static UserResponse modelToDto(User user) {
+    public static UserResponse modelToDtoBasic(User user) {
         UserResponse dto = new UserResponse();
         dto.setName(user.getName());
         dto.setUsername(user.getUsername());

@@ -27,7 +27,7 @@ public class RoleController implements RoleApi {
     public ResponseEntity<RoleResponse> addRole(RoleRequest roleRequest) {
         log.info("Request add a new role");
         Role role = roleService.saveRole(Util.dtoToModel(roleRequest));
-        return new ResponseEntity<>(Util.modelToDtoFull(role), HttpStatus.OK);
+        return new ResponseEntity<>(Util.modelToDtoBasic(role), HttpStatus.OK);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class RoleController implements RoleApi {
         RolesResponse rolesResponse = new RolesResponse();
         rolesResponse.setSize(roles.size());
         rolesResponse.setRoles(roles.stream()
-                                    .map(Util::modelToDtoFull)
+                                    .map(Util::modelToDtoBasic)
                                     .collect(Collectors.toList()));
         return new ResponseEntity<>(rolesResponse, HttpStatus.OK);
     }

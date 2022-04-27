@@ -33,14 +33,14 @@ public class UserController implements UserApi {
                         .name(RoleEnum.fromValue(userAndRoleRequest.getRole()))
                         .build();
         User updatedUser = userService.addRoleToUser(user, role);
-        return new ResponseEntity<>(Util.modelToDtoFull(updatedUser), HttpStatus.OK);
+        return new ResponseEntity<>(Util.modelToDto(updatedUser), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<UserResponse> addUser(UserRequest userRequest) {
         log.info("Request add a new user");
         User user = userService.saveUser(Util.dtoToModel(userRequest));
-        return new ResponseEntity<>(Util.modelToDto(user), HttpStatus.OK);
+        return new ResponseEntity<>(Util.modelToDtoBasic(user), HttpStatus.OK);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class UserController implements UserApi {
 
         UsersAndRolesResponse response = new UsersAndRolesResponse();
         List<UserAndRolesResponse> userAndRoles = users.stream()
-                                                       .map(Util::modelToDtoFull)
+                                                       .map(Util::modelToDto)
                                                        .collect(Collectors.toList());
         response.setUsers(userAndRoles);
         response.setSize(userAndRoles.size());
