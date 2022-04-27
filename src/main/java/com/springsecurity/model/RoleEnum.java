@@ -2,15 +2,11 @@ package com.springsecurity.model;
 
 public enum RoleEnum {
 
-    ADMIN(1, "ADMIN"),
-    DEV(2, "DEV"),
-    QA(3, "QA");
+    ADMIN("ADMIN"), DEV("DEV"), QA("QA");
 
-    private final Integer id;
     private final String value;
 
-    RoleEnum(Integer id, String value) {
-        this.id = id;
+    RoleEnum(String value) {
         this.value = value;
     }
 
@@ -25,10 +21,6 @@ public enum RoleEnum {
 
     public String getValue() {
         return value;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     @Override

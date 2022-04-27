@@ -1,5 +1,7 @@
 package com.springsecurity.controller;
 
+import com.springsecurity.model.Role;
+import com.springsecurity.model.RoleEnum;
 import com.springsecurity.model.User;
 import com.springsecurity.service.UserService;
 import com.springsecurity.swagger.user.api.UserApi;
@@ -22,8 +24,21 @@ public class UserController implements UserApi {
     private UserService userService;
 
     @Override
+    public ResponseEntity<UserAndRolesResponse> addRoleToUSer(UserAndRoleRequest userAndRoleRequest) {
+        log.info("Request add a role to a user");
+        User user = User.builder()
+                        .username(userAndRoleRequest.getUsername())
+                        .build();
+        Role role = Role.builder()
+                        .name(RoleEnum.fromValue(userAndRoleRequest.getRole()))
+                        .build();
+        User updatedUser = userService.addRoleToUser(user, role);
+        return new ResponseEntity<>(Util.modelToDtoFull(updatedUser), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<UserResponse> addUser(UserRequest userRequest) {
-        log.info("Request add new user");
+        log.info("Request add a new user");
         User user = userService.saveUser(Util.dtoToModel(userRequest));
         return new ResponseEntity<>(Util.modelToDto(user), HttpStatus.OK);
     }

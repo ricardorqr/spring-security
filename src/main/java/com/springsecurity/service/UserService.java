@@ -25,16 +25,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void addRoleToUser(User user, Role role) {
-        log.info("Add role {} to the user {}", role.getName(), user.getName());
+    public User addRoleToUser(User user, Role role) {
+        log.info("Add the role {} to the user {}", role.getName().getValue(), user.getUsername());
         User userFound = userRepository.findByUsername(user.getUsername());
-        Role roleFound = roleRepository.findByName(role.getName().getValue());
-        user.getRoles().add(role);
-    }
-
-    public User getUser(String username) {
-        log.info("Fetch user: {}", username);
-        return userRepository.findByUsername(username);
+        Role roleFound = roleRepository.findByName(role.getName());
+        userFound.getRoles().add(roleFound);
+        return userFound;
     }
 
     public List<User> getUsers() {

@@ -1,6 +1,7 @@
 package com.springsecurity.util;
 
 import com.springsecurity.model.Role;
+import com.springsecurity.model.RoleEnum;
 import com.springsecurity.model.User;
 import com.springsecurity.swagger.user.model.*;
 
@@ -40,6 +41,12 @@ public class Util {
                 .name(userRequest.getName())
                 .password(userRequest.getPassword())
                 .username(userRequest.getUsername())
+                .build();
+    }
+
+    public static Role dtoToModel(RoleRequest roleRequest) {
+        return Role.builder()
+                .name(RoleEnum.fromValue(roleRequest.getName()))
                 .build();
     }
 

@@ -7,10 +7,11 @@ src/main/java/com/springsecurity/swagger/user/api/UserApi.java
 src/main/java/com/springsecurity/swagger/user/api/UserApiClient.java
 src/main/java/com/springsecurity/swagger/user/config/ApiKeyRequestInterceptor.java
 src/main/java/com/springsecurity/swagger/user/config/ClientConfiguration.java
-src/main/java/com/springsecurity/swagger/user/model/Error.java
 src/main/java/com/springsecurity/swagger/user/model/RoleDTO.java
+src/main/java/com/springsecurity/swagger/user/model/RoleRequest.java
 src/main/java/com/springsecurity/swagger/user/model/RoleResponse.java
 src/main/java/com/springsecurity/swagger/user/model/RolesResponse.java
+src/main/java/com/springsecurity/swagger/user/model/UserAndRoleRequest.java
 src/main/java/com/springsecurity/swagger/user/model/UserAndRolesResponse.java
 src/main/java/com/springsecurity/swagger/user/model/UserDTO.java
 src/main/java/com/springsecurity/swagger/user/model/UserRequest.java

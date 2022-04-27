@@ -42,30 +42,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsersAndRolesResponse'
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: System Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+#        400:
+#          description: Bad Request
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        401:
+#          description: Unauthorized
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        404:
+#          description: Not Found
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        500:
+#          description: System Error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
 
     post:
       tags:
@@ -86,30 +86,76 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
-        400:
-          description: Bad Request
+#        400:
+#          description: Bad Request
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        401:
+#          description: Unauthorized
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        404:
+#          description: Not Found
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        500:
+#          description: System Error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+
+  /users/addrole:
+
+    post:
+      tags:
+        - User
+      summary: Add a role to a user
+      operationId: addRoleToUSer
+      requestBody:
+        description: Username and role
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAndRoleRequest'
+      responses:
+        200:
+          description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: System Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/UserAndRolesResponse'
+#        400:
+#          description: Bad Request
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        401:
+#          description: Unauthorized
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        404:
+#          description: Not Found
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        500:
+#          description: System Error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
 
 #  '/users/{id}':
 #
@@ -172,30 +218,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RolesResponse'
-        400:
-          description: Bad Request
+#        400:
+#          description: Bad Request
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        401:
+#          description: Unauthorized
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        404:
+#          description: Not Found
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        500:
+#          description: System Error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+
+    post:
+      tags:
+        - Role
+      summary: Add a role
+      operationId: addRole
+      requestBody:
+        description: Add a new role
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+      responses:
+        200:
+          description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: System Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/RoleResponse'
+#        400:
+#          description: Bad Request
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        401:
+#          description: Unauthorized
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        404:
+#          description: Not Found
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+#        500:
+#          description: System Error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
 
 #security:
 #  - token: []
@@ -260,6 +350,25 @@ components:
           items:
             $ref: '#/components/schemas/UserAndRolesResponse'
 
+    UserAndRoleRequest:
+      description: User and role response
+      type: object
+      required:
+        - size
+      properties:
+        username:
+          description: Username of the user
+          type: string
+          example: ricardo123
+          minLength: 5
+          maxLength: 256
+        role:
+          description: Role of the user
+          type: string
+          example: ADMIN
+          minLength: 2
+          maxLength: 20
+
     UserRequest:
       description: User request
       type: object
@@ -275,10 +384,14 @@ components:
           description: Name of the role
           type: string
           example: ADMIN
-          minLength: 5
-          maxLength: 256
+          minLength: 2
+          maxLength: 20
 
     RoleResponse:
+      allOf:
+        - $ref: '#/components/schemas/RoleDTO'
+
+    RoleRequest:
       allOf:
         - $ref: '#/components/schemas/RoleDTO'
 
@@ -297,23 +410,23 @@ components:
           items:
             $ref: '#/components/schemas/RoleResponse'
 
-    Error:
-      type: object
-      description: The Error object contains information about the error
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-          example: 666
-        message:
-          type: string
-          example: Any error message
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+#    Error:
+#      type: object
+#      description: The Error object contains information about the error
+#      required:
+#        - code
+#        - message
+#      properties:
+#        code:
+#          type: string
+#          example: 666
+#        message:
+#          type: string
+#          example: Any error message
+#        errors:
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/Error'
 
 #  securitySchemes:
 #    token:

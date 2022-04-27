@@ -33,7 +33,7 @@ public class RoleDTO   {
    * Name of the role
    * @return name
   */
-  @NotNull @Size(min = 5, max = 256) 
+  @NotNull @Size(min = 2, max = 20) 
   @Schema(name = "name", example = "ADMIN", description = "Name of the role", required = true)
   public String getName() {
     return name;

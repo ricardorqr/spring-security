@@ -5,7 +5,8 @@
  */
 package com.springsecurity.swagger.user.api;
 
-import com.springsecurity.swagger.user.model.Error;
+import com.springsecurity.swagger.user.model.UserAndRoleRequest;
+import com.springsecurity.swagger.user.model.UserAndRolesResponse;
 import com.springsecurity.swagger.user.model.UserRequest;
 import com.springsecurity.swagger.user.model.UserResponse;
 import com.springsecurity.swagger.user.model.UsersAndRolesResponse;
@@ -38,25 +39,42 @@ import javax.annotation.Generated;
 public interface UserApi {
 
     /**
+     * POST /users/addrole : Add a role to a user
+     *
+     * @param userAndRoleRequest Username and role (required)
+     * @return Success (status code 200)
+     */
+    @Operation(
+        operationId = "addRoleToUSer",
+        summary = "Add a role to a user",
+        tags = { "User" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UserAndRolesResponse.class)))
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/users/addrole",
+        produces = "application/json",
+        consumes = "application/json"
+    )
+    ResponseEntity<UserAndRolesResponse> addRoleToUSer(
+        @Parameter(name = "UserAndRoleRequest", description = "Username and role", required = true, schema = @Schema(description = "")) @Valid @RequestBody UserAndRoleRequest userAndRoleRequest
+    );
+
+
+    /**
      * POST /users : Add a user
      *
      * @param userRequest Details of the user (required)
      * @return Success (status code 200)
-     *         or Bad Request (status code 400)
-     *         or Unauthorized (status code 401)
-     *         or Not Found (status code 404)
-     *         or System Error (status code 500)
      */
     @Operation(
         operationId = "addUser",
         summary = "Add a user",
         tags = { "User" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UserResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
-            @ApiResponse(responseCode = "500", description = "System Error", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class)))
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UserResponse.class)))
         }
     )
     @RequestMapping(
@@ -74,21 +92,13 @@ public interface UserApi {
      * GET /users : Get all users
      *
      * @return Success (status code 200)
-     *         or Bad Request (status code 400)
-     *         or Unauthorized (status code 401)
-     *         or Not Found (status code 404)
-     *         or System Error (status code 500)
      */
     @Operation(
         operationId = "getUsers",
         summary = "Get all users",
         tags = { "User" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UsersAndRolesResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class))),
-            @ApiResponse(responseCode = "500", description = "System Error", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Error.class)))
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UsersAndRolesResponse.class)))
         }
     )
     @RequestMapping(

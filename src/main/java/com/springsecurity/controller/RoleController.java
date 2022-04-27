@@ -3,6 +3,8 @@ package com.springsecurity.controller;
 import com.springsecurity.model.Role;
 import com.springsecurity.service.RoleService;
 import com.springsecurity.swagger.user.api.RoleApi;
+import com.springsecurity.swagger.user.model.RoleRequest;
+import com.springsecurity.swagger.user.model.RoleResponse;
 import com.springsecurity.swagger.user.model.RolesResponse;
 import com.springsecurity.util.Util;
 import lombok.AllArgsConstructor;
@@ -22,13 +24,22 @@ public class RoleController implements RoleApi {
     private RoleService roleService;
 
     @Override
+    public ResponseEntity<RoleResponse> addRole(RoleRequest roleRequest) {
+        log.info("Request add a new role");
+        Role role = roleService.saveRole(Util.dtoToModel(roleRequest));
+        return new ResponseEntity<>(Util.modelToDtoFull(role), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<RolesResponse> getRoles() {
         log.info("Request all roles");
         List<Role> roles = roleService.getRoles();
 
         RolesResponse rolesResponse = new RolesResponse();
         rolesResponse.setSize(roles.size());
-        rolesResponse.setRoles(roles.stream().map(Util::modelToDtoFull).collect(Collectors.toList()));
+        rolesResponse.setRoles(roles.stream()
+                                    .map(Util::modelToDtoFull)
+                                    .collect(Collectors.toList()));
         return new ResponseEntity<>(rolesResponse, HttpStatus.OK);
     }
 
