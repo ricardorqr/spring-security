@@ -42,30 +42,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsersAndRolesResponse'
-#        400:
-#          description: Bad Request
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        401:
-#          description: Unauthorized
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        404:
-#          description: Not Found
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        500:
-#          description: System Error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
 
     post:
       tags:
@@ -86,30 +62,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
-#        400:
-#          description: Bad Request
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        401:
-#          description: Unauthorized
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        404:
-#          description: Not Found
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        500:
-#          description: System Error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
 
   /users/addrole:
 
@@ -132,77 +84,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserAndRolesResponse'
-#        400:
-#          description: Bad Request
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        401:
-#          description: Unauthorized
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        404:
-#          description: Not Found
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        500:
-#          description: System Error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-
-#  '/users/{id}':
-#
-#    get:
-#      tags:
-#        - User
-#      summary: Get a user
-#      operationId: getUser
-#      parameters:
-#        - name: id
-#          in: path
-#          description: ID of the user
-#          required: true
-#          schema:
-#            type: integer
-#            format: int32
-#      responses:
-#        200:
-#          description: Success
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/UserAndRolesResponse'
-#        400:
-#          description: Bad Request
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        401:
-#          description: Unauthorized
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        404:
-#          description: Not Found
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        500:
-#          description: System Error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
 
   /roles:
 
@@ -218,30 +99,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RolesResponse'
-#        400:
-#          description: Bad Request
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        401:
-#          description: Unauthorized
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        404:
-#          description: Not Found
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        500:
-#          description: System Error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
 
     post:
       tags:
@@ -262,30 +119,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RoleResponse'
-#        400:
-#          description: Bad Request
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        401:
-#          description: Unauthorized
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        404:
-#          description: Not Found
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
-#        500:
-#          description: System Error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
 
 #security:
 #  - token: []
@@ -409,24 +242,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RoleResponse'
-
-#    Error:
-#      type: object
-#      description: The Error object contains information about the error
-#      required:
-#        - code
-#        - message
-#      properties:
-#        code:
-#          type: string
-#          example: 666
-#        message:
-#          type: string
-#          example: Any error message
-#        errors:
-#          type: array
-#          items:
-#            $ref: '#/components/schemas/Error'
 
 #  securitySchemes:
 #    token:
