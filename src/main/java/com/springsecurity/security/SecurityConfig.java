@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,7 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("Secrete word: {}", secret);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().anyRequest().permitAll();
+        http.authorizeRequests().antMatchers("/login/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ADMIN", "DEV", "QA");
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/addrole/**").hasAnyAuthority("ADMIN", "DEV", "QA");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ADMIN", "DEV", "QA");
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/roles/**").hasAnyAuthority("ADMIN", "DEV", "QA");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/roles/**").hasAnyAuthority("ADMIN", "DEV", "QA");
+        http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), secret));
     }
 
