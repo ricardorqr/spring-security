@@ -1,6 +1,7 @@
 package com.springsecurity.security;
 
 import com.springsecurity.filter.CustomAuthenticationFilter;
+import com.springsecurity.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,12 +16,21 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    public static final String LOGIN = "/login/**";
+    public static final String USERS = "/users/**";
+    public static final String USERS_ADD_ROLE = "/users/addrole/**";
+    public static final String ROLES = "/roles/**";
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String ROLE_DEV = "DEV";
+    public static final String ROLE_QA = "QA";
 
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -36,16 +46,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         log.info("Secrete word: {}", secret);
+
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), secret);
+        customAuthenticationFilter.setFilterProcessesUrl(LOGIN);
+
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/login/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ADMIN", "DEV", "QA");
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/addrole/**").hasAnyAuthority("ADMIN", "DEV", "QA");
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ADMIN", "DEV", "QA");
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/roles/**").hasAnyAuthority("ADMIN", "DEV", "QA");
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/roles/**").hasAnyAuthority("ADMIN", "DEV", "QA");
+        http.authorizeRequests().antMatchers(LOGIN).permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, USERS).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
+        http.authorizeRequests().antMatchers(HttpMethod.POST, USERS_ADD_ROLE).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
+        http.authorizeRequests().antMatchers(HttpMethod.GET, USERS).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
+        http.authorizeRequests().antMatchers(HttpMethod.POST, ROLES).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
+        http.authorizeRequests().antMatchers(HttpMethod.GET, ROLES).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
         http.authorizeRequests().anyRequest().authenticated();
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), secret));
+        http.addFilter(customAuthenticationFilter);
+        http.addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
