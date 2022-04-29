@@ -1,4 +1,4 @@
-# Spring Security V4
+# Spring Security
 
 This project is an example of microservice using Spring Boot, Docker, OpenAPI Generator and JWT. It was used Swagger Codegen to generate documentation.
 
