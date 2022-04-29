@@ -32,7 +32,7 @@ In each root project folder, run the command:
 <spring-security>$ mvn spring-boot:run
 ```
 
-### 3. Links
+# Links
 
 - Database: [http://localhost:8080/?server=mariadb](http://localhost:8080/?server=mariadb)
 - Swagger: [http://localhost:8081/swagger](http://localhost:8081/swagger)
