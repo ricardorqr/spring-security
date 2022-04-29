@@ -32,6 +32,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String ROLE_DEV = "DEV";
     public static final String ROLE_QA = "QA";
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
+
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Value("${spring-security.key-word}")
@@ -53,6 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers(LOGIN).permitAll();
+        http.authorizeRequests().antMatchers("/swagger/**").permitAll();
+        http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, USERS).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
         http.authorizeRequests().antMatchers(HttpMethod.POST, USERS_ADD_ROLE).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
         http.authorizeRequests().antMatchers(HttpMethod.GET, USERS).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);

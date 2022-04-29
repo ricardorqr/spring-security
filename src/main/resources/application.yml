@@ -25,6 +25,5 @@ spring:
 
 springdoc:  # Swagger documentation
   swagger-ui:
-    url: /customer-api.yml
+    url: /user-api.yml
     path: /swagger
-eureka: true
