@@ -50,6 +50,9 @@ public interface UserApi {
         tags = { "User" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UserAndRolesResponse.class)))
+        },
+        security = {
+            @SecurityRequirement(name = "Authorization")
         }
     )
     @RequestMapping(
@@ -75,6 +78,9 @@ public interface UserApi {
         tags = { "User" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UserResponse.class)))
+        },
+        security = {
+            @SecurityRequirement(name = "Authorization")
         }
     )
     @RequestMapping(
@@ -99,6 +105,9 @@ public interface UserApi {
         tags = { "User" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  UsersAndRolesResponse.class)))
+        },
+        security = {
+            @SecurityRequirement(name = "Authorization")
         }
     )
     @RequestMapping(

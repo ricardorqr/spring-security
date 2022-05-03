@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,16 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public static final String LOGIN = "/login/**";
-    public static final String USERS = "/users/**";
-    public static final String USERS_ADD_ROLE = "/users/addrole/**";
-    public static final String ROLES = "/roles/**";
-    public static final String ROLE_ADMIN = "ADMIN";
-    public static final String ROLE_DEV = "DEV";
-    public static final String ROLE_QA = "QA";
-
+    private static final String LOGIN = "/login/**";
     private static final String[] AUTH_WHITELIST = {
-            // -- Swagger UI v2
             "/v2/api-docs",
             "/configuration/ui",
             "/swagger-resources",
@@ -42,7 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui.html",
             "/webjars/**",
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/swagger-resources/configuration/ui",
+            "/user-api.yml",
+
     };
 
     private final UserDetailsService userDetailsService;
@@ -52,8 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-            .passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
@@ -68,11 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(LOGIN).permitAll();
         http.authorizeRequests().antMatchers("/swagger/**").permitAll();
         http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, USERS).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
-        http.authorizeRequests().antMatchers(HttpMethod.POST, USERS_ADD_ROLE).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
-        http.authorizeRequests().antMatchers(HttpMethod.GET, USERS).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
-        http.authorizeRequests().antMatchers(HttpMethod.POST, ROLES).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
-        http.authorizeRequests().antMatchers(HttpMethod.GET, ROLES).hasAnyAuthority(ROLE_ADMIN, ROLE_DEV, ROLE_QA);
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
