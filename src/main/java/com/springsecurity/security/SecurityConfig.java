@@ -36,7 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
             "/swagger-resources/configuration/ui",
             "/user-api.yml",
-
     };
 
     private final UserDetailsService userDetailsService;
