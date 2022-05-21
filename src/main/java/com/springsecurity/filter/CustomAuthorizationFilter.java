@@ -58,8 +58,8 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
-                } catch (TokenExpiredException e) {
-                    log.error("ERROR logging in {}", e.getMessage());
+                } catch (Exception e) {
+                    log.warn(e.getMessage());
                     response.setHeader("ERROR", e.getMessage());
                     response.sendError(HttpStatus.FORBIDDEN.value());
 
@@ -67,6 +67,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     error.put("error_message", e.getMessage());
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                     new ObjectMapper().writeValue(response.getOutputStream(), error);
+                    throw new TokenExpiredException(e.getMessage());
                 }
             } else {
                 filterChain.doFilter(request, response);
