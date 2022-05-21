@@ -67,7 +67,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     error.put("error_message", e.getMessage());
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                     new ObjectMapper().writeValue(response.getOutputStream(), error);
-                    throw new TokenExpiredException("Token expired");
                 }
             } else {
                 filterChain.doFilter(request, response);
