@@ -27,3 +27,9 @@ springdoc:  # Swagger documentation
   swagger-ui:
     url: /user-api.yml
     path: /swagger
+
+logging: # Logbook Logging
+  level:
+    org:
+      zalando:
+        logbook: TRACE
