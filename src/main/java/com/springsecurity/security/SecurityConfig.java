@@ -23,7 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String LOGIN = "/login/**";
     private static final String[] AUTH_WHITELIST = {
             "/v2/api-docs",
             "/configuration/ui",
@@ -53,11 +52,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("Secrete word: {}", secret);
 
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), secret);
-        customAuthenticationFilter.setFilterProcessesUrl(LOGIN);
+        customAuthenticationFilter.setFilterProcessesUrl("/login/**");
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers(LOGIN).permitAll();
+        http.authorizeRequests().antMatchers("/login/**").permitAll();
         http.authorizeRequests().antMatchers("/swagger/**").permitAll();
         http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
         http.authorizeRequests().anyRequest().authenticated();

@@ -48,7 +48,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Algorithm algorithm = Algorithm.HMAC256(secretKeyWord.getBytes());
         String accessToken = JWT.create()
                                 .withSubject(user.getUsername())
-                                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000)) // 10 min * 1 min * 1000 millisecond
+                                .withExpiresAt(new Date(System.currentTimeMillis() + 15 * 60 * 1000)) // 15 min * 1 min * 1000 millisecond
                                 .withIssuer(request.getRequestURL().toString())
                                 .withClaim("roles", user.getAuthorities()
                                                         .stream()
@@ -57,16 +57,16 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                                 .sign(algorithm);
         log.info("Token: {}", accessToken);
 
-//        String refreshToken = JWT.create()
-//                                 .withSubject(user.getUsername())
-//                                 .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000)) // 30 min * 1 min * 1000 millisecond
-//                                 .withIssuer(request.getRequestURL().toString())
-//                                 .sign(algorithm);
-//        log.info("Refresh Token: {}", refreshToken);
+        String refreshToken = JWT.create()
+                                 .withSubject(user.getUsername())
+                                 .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000)) // 30 min * 1 min * 1000 millisecond
+                                 .withIssuer(request.getRequestURL().toString())
+                                 .sign(algorithm);
+        log.info("Refresh Token: {}", refreshToken);
 
         HashMap<String, String> tokens = new HashMap<>();
         tokens.put("access_token", accessToken);
-//        tokens.put("refresh_token", accessToken);
+        tokens.put("refresh_token", accessToken);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
