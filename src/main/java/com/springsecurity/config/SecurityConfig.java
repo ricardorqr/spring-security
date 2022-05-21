@@ -1,4 +1,4 @@
-package com.springsecurity.security;
+package com.springsecurity.config;
 
 import com.springsecurity.filter.CustomAuthenticationFilter;
 import com.springsecurity.filter.CustomAuthorizationFilter;
