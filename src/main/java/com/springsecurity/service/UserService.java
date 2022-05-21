@@ -31,11 +31,11 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            log.error("User not found in DB");
+            log.warn("User not found in DB");
             throw new UsernameNotFoundException("User not found in DB");
-        } else {
-            log.info("User found in DB: {}", user);
         }
+
+        log.info("User found in DB: {}", user);
 
         List<SimpleGrantedAuthority> authorities = user.getRoles()
                                                        .stream()
@@ -46,7 +46,6 @@ public class UserService implements UserDetailsService {
     }
 
     public User saveUser(User user) {
-        log.info("Save user: {}", user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -60,7 +59,6 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getUsers() {
-        log.info("Fetch all users");
         return userRepository.findAll();
     }
 

@@ -25,7 +25,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<UserAndRolesResponse> addRoleToUSer(UserAndRoleRequest userAndRoleRequest) {
-        log.info("Request add a role to a user");
+        log.info("Request add a role to a user: {}", userAndRoleRequest );
         User user = User.builder()
                         .username(userAndRoleRequest.getUsername())
                         .build();
@@ -38,14 +38,13 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<UserResponse> addUser(UserRequest userRequest) {
-        log.info("Request add a new user");
+        log.info("Request add a new user: {}", userRequest);
         User user = userService.saveUser(Util.dtoToModel(userRequest));
         return new ResponseEntity<>(Util.modelToDtoBasic(user), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<UsersAndRolesResponse> getUsers() {
-        log.info("Request all users");
         List<User> users = userService.getUsers();
 
         UsersAndRolesResponse response = new UsersAndRolesResponse();
