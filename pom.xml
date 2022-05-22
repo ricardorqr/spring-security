@@ -22,6 +22,7 @@
     </properties>
 
     <dependencies>
+        <!-- Logging Logbook -->
         <dependency>
             <groupId>org.zalando</groupId>
             <artifactId>logbook-spring-boot-starter</artifactId>
