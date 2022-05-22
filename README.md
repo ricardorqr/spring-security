@@ -20,7 +20,7 @@ Here is how to check the database
 - Password: example
 - Database: example
 
-![Table Customer](files/MariaDB01.png)
+![Table Customer](.files/MariaDB01.png)
 
 ### 2. Run application
 
